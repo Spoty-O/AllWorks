@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-        user: 'audrey.marks@ethereal.email',
-        pass: 'CjQnXwnNtcvFCaxq5n'
+        user: 'reed.mclaughlin43@ethereal.email',
+        pass: 'ZET74cNcFJCZ49YfYv'
     }
 });
 
@@ -87,8 +87,7 @@ class AuthController {
                 });
                 return res.json({ jwt_token, login: user.login, role: user.role, profile_picture: user.profile_picture, rating: user.rating, id: user.id });
             }
-            // send_mail('register', user.email, generateJwt(user.id, '', ''));
-            return res.json({ message: "Check email!" });
+            return next(ApiError.badRequest("Check email!"));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal("Server error! Try again later!"));

@@ -42,7 +42,7 @@ const NavBar = () => {
 
 const Auth = () => {
     const [formState, setForm] = useState(true);
-    const [login, { error: log_er }] = API.useLoginMutation();
+    const [login, { data: log_data, error: log_er }] = API.useLoginMutation();
     const [register, { data, error: reg_er }] = API.useRegisterMutation();
     const dispatch = useDispatch();
 
@@ -55,8 +55,7 @@ const Auth = () => {
 
     async function register_handler(e) {
         e.preventDefault();
-        let res = await register(new FormData(e.target));
-        console.log(res);
+        await register(new FormData(e.target));
     }
 
     return (
@@ -70,9 +69,16 @@ const Auth = () => {
                 ? "Log in"
                 : "Sign up"
             }</button>
-            {data && <span style={{ color: "green" }}>{data.message}</span>}
-            {log_er && <span style={{ color: "red" }}>{log_er.data.message}</span>}
-            {reg_er && <span style={{ color: "red" }}>{reg_er.data.message}</span>}
+            {formState
+                ?
+                <>
+                    {log_er ? <span style={{ color: "red" }}>{log_er.data.message}</span> : log_data && <span style={{ color: "green" }}>{log_data.message}</span>}
+                </>
+                :
+                <>
+                    {reg_er ? <span style={{ color: "red" }}>{reg_er.data.message}</span> : data && <span style={{ color: "green" }}>{data.message}</span>}
+                </>
+            }
             <Link onClick={() => { setForm(!formState) }}>
                 {formState
                     ? "New user? Create account!"

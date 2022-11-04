@@ -30,7 +30,7 @@ const UserPage = () => {
             {data &&
                 <div className="profile">
                     <img src={`http://localhost:5000/${data.profile_picture}`} alt="" onClick={() => setForm(!form)} />
-                    {isAuth && form ? (id == id_user || role == 'ADMIN') &&
+                    {isAuth && (id == id_user || role == 'ADMIN') && form ?
                         <form onSubmit={update_data} encType="multipart/form-data">
                             {id == id_user
                                 ?
